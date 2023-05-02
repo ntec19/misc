@@ -16,7 +16,10 @@ fichier = sys.argv[1]
 
 # retirer la protection du classeur
 wb = openpyxl.load_workbook(fichier)
-wb.security.lockStructure = False
+try:
+    wb.security.lockStructure = False
+except:
+    print("Classeur non verrouillé")
 wb.save(fichier)
 wb.close()
 
@@ -24,9 +27,9 @@ wb.close()
 wb = openpyxl.load_workbook(fichier)
 liste_feuilles = wb.sheetnames
 for feuille in liste_feuilles:
-    print(feuille)
     ws = wb[feuille]
     ws.protection.disable()
+    print(f"Protection retirée sur la feuille {feuille}")
 wb.save(fichier)
 wb.close()
 
